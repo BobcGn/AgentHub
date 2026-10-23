@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+*.log
+.DS_Store
+
+# Local credentials and machine-specific environment.
+.env
+.env.*
+!.env.example
+
+# Upstream reference checkouts are not AgentHub source.
+/references/
