@@ -1,0 +1,30 @@
+import { HarnessService } from '../src/application/harness-service.js';
+import { JsonRunStore } from '../src/infrastructure/run-store.js';
+import { createCandidateValidator } from '../src/infrastructure/harness-validator.js';
+import { scriptedModel } from '../src/infrastructure/scripted-model.js';
+import { RecordProjectService } from '../src/application/record-project-service.js';
+import { JsonRecordProjectStore } from '../src/infrastructure/record-project-store.js';
+import { createRecordStructureValidator } from '../src/infrastructure/record-validator.js';
+// Isolated test bootstrap: not imported by the product entry or bundled into dist.
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+import { BoardService } from '../src/application/board-service.js';
+import { initializeAdmin, toolCredentials } from '../src/infrastructure/auth.js';
+import { SqliteStore } from '../src/infrastructure/sqlite-store.js';
+import { createHubServer } from '../src/infrastructure/http-server.js';
+const dir = mkdtempSync(join(tmpdir(), 'agenthub-browser-'));
+const store = new SqliteStore(join(dir, 'board.sqlite'));
+initializeAdmin(store, 'browser-test-password');
+const recordStore = new JsonRecordProjectStore(join(dir, 'record-projects'));
+const service = new BoardService(store, toolCredentials, id => recordStore.get(id) !== undefined);
+const validator = createRecordStructureValidator();
+const recordService = new RecordProjectService(recordStore, service, validator);
+const harness = new HarnessService({ runs: new JsonRunStore(join(dir, 'runs')), projects: recordStore, records: recordService, validator, candidates: createCandidateValidator(), model: scriptedModel });
+const server = createHubServer({ store, service, recordService, harness, webRoot: resolve('dist/web') });
+server.listen(4318, '127.0.0.1');
+process.once('SIGTERM', () => {
+  server.closeUpdates();
+  server.close(() => { store.close(); rmSync(dir, { recursive: true, force: true }); });
+  server.closeAllConnections();
+});
