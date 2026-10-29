@@ -2,6 +2,22 @@
 
 本文件将必须保持的安全边界与可能实现这些边界的机制分开。**已确认的不变量不是已实现的防护，候选机制也没有已确认的技术 Pass。** 当前证据和授权状态以[工程状态](project-status.md)为准。
 
+## Harness 首个切片的边界（2026-10-26）
+
+Run 的启动、查询、候选预览、决定、应用、取消与恢复只接受现有人端会话；旧工具 Bearer 不继承 Cookie 权限。模型端口只收到受限数据投影与取消信号，没有记录仓库、凭据、网络配置、Shell 或 Git 能力。候选只有未知问题 / 假设字段，服务检查来源白名单、需求归属、完整关系和项目修订；模型不能自填可信人端或验收字段。
+
+人端启动的运行授权限定当前项目 / 需求与候选能力，保留 24 小时并可撤销；正式记录应用仍须独立人端确认。取消与超时后拒绝晚到结果，恢复不自动扩大范围或重基旧候选。输入快照包括完整必要边界、适用决定与来源，仅保留一个不超过 600 字的本轮问题，不采集完整思维链或长期完整对话。
+
+运行 JSON 与正式记录 JSON 只通过应用用例协调，读取也做合同校验。人端保存与 Run 回执分开，使用确定回执核对中断副作用；没有多进程事务或宿主强制保护。Node 同进程接口、文件权限和 Schema 都不能限制拥有同一 OS 用户任意文件能力的外部进程，不据此宣称可信晋升或 X1–X5 Pass。当前仅接脚本化模型替身，真实 API Key 和云端外发尚未启用。
+
+## 正式 JSON 项目的接口与宿主边界
+
+新正式项目复用人端会话、精确同源 Origin / Host 与正文限制，工具令牌不能读取、编辑、迁移或整体接受新 JSON 项目。输入必须通过 Schema、关系及用例检查；显式确认和修订号绑定保存，来源 / 观察证据采用追加更正，整体接受由独立人端入口生成，通用 JSON 字段不能自行赋予该效力。
+
+旧项目迁移确认后，BoardService 在业务写入用例中拒绝继续修改旧正式内容；原令牌撤销保留，防止因只读限制阻断凭据撤销。旧数据库保留不等于原批准适用于新 Requirement；其历史仅作为来源。
+
+JSON 文件是应用内部正式内容，采用新目录 0700、文件 0600、临时写入和原子替换；没有新的运行时隔离。若外部 Agent 具有同一 OS 用户的任意文件能力，仍可能直接修改 JSON、审计历史或凭据，不能把文件权限、Schema、审计文字或人端接口测试当作防篡改与可信审批证明。手工录入的证据内容也未经系统真实性鉴定。具体操作与失败边界见[指南](record-board-quickstart.md)。
+
 ## 为什么需要可信与不可信分离
 
 项目文件、Rules / Skills、工具返回或模型建议可能包含越权指令。Hub 因此必须在真实执行处控制权限，不能依靠提示词要求 Agent 自律。
@@ -17,6 +33,20 @@
 - 验证条件失效时限制受影响能力，不继续沿用过期安全结论；中断时核查实际副作用。
 
 领域记录与外部事实的权威边界以[治理文档](governance.md#权威事实源与持久化边界)为准。
+
+## 看板开发中的审批与宿主边界
+
+先行看板也需要区分工具提交与人工决定：身份来自可信通路，业务输入或命令参数不能自称人工；人端决定和普通工具写入应在实际入口分别检查。B1 目前由交互终端建立人端密码并保存 scrypt 哈希；人端登录取得 8 小时、内存中保存的 HttpOnly / SameSite=Strict 会话，退出或重启后失效；工具令牌由人端按项目 / Intent 发放，基础权限为读取及提议新增 Issue；B2 可由人端明确增加指定对象与类型的普通记录追加，存储 SHA-256 哈希并可撤销。服务拒绝工具令牌调用决定或发放范围入口，不采信输入的人工身份字段；人端 POST 要求精确同源 Origin，校验 Host，并限制正文及失败登录。详见[试用指南](board-quickstart.md)。
+
+本地服务、CLI 不暴露批准命令、数据库移出仓库或分开 Token，都不能单独证明外部 Agent 无法伪造审批。若 Agent 仍有同一操作系统用户下的任意访问能力，读取凭据、直接改库或调用人端通道的风险仍需真实边界事实和相应验证支持。
+
+应用入口内的角色 / 范围测试，只支持它实际覆盖的接口结论；不自动证明宿主隔离、Hub Protected Records 或 X3 / X5 已完成。看板交互可先以明确标注的演示数据开发，不要求先运行高风险 Sandbox 实验；正式可信职责仍按原有验证与晋升规则处理。
+
+B1 决定绑定提案 / Intent / 正式计划版本，事务保存 Issue、提案状态、决定及幂等结果。当前接口测试覆盖工具直接请求审批被拒、撤销、伪造字段、来源 / Host、旧版本、重复请求及真实 SQLite 失败回滚；这支持应用接口层结论，不代表实际操作者已得到 OS 身份证明。
+
+setup 不提供 HTTP 自举入口，但能运行 setup、读取数据库或改动应用的同一 OS 用户仍可能绕过应用规则。单账户、本地 HTTP、无密码重置或宿主强制隔离，均是当前限制；只用于演示数据试用。数据库文件权限和目录权限用于减少普通误暴露，不将其升级为可信边界。
+
+B1 的 /api/events 只接受已登录人端会话，工具令牌与未登录请求被拒；消息仅通知有变化，不含记录内容、项目标识或凭据。客户端仍经原有鉴权接口读取快照；服务在发布通知和 15 秒心跳时复查会话，失效则关闭订阅。该机制支持页面及时反映已保存事实，不增加工具权限，也不替代后端版本检查或宿主隔离。
 
 ## macOS Sandbox：待验证的执行机制
 
@@ -65,3 +95,55 @@ Broker 不能成为任意高权限 Git 命令转发器。本地 Commit 的授权
 Guest 验证通过不自动取得宿主机执行资格；X1 和 X2 分别 Pass 也不自动证明组合安全。候选组件必须在真实版本、运行环境和策略下验证，并经可信晋升，才能承担正式职责。
 
 实验启动条件、退出状态和四层准入见[验证文档](validation.md)。本次不配置任何 Sandbox、VM、Broker 或网络策略。
+
+## B2 记录权限检查
+
+普通记录写入复用现有鉴权通路；工具必须同时匹配项目、Intent、record:append、精确关联对象和记录类型。授权由人端明确勾选，客户端输入不能扩大；旧令牌不自动增加权限。新增子 Issue 不继承记录范围，工具不能自行发放或修改范围。/api/access 仅回传当前身份与自身工具范围，不含凭据。
+
+服务拒绝记录中的未知字段、人工身份和验收状态，生成来源身份；外部引用仅为写入者文本，不能证明执行。人端与工具写入均检查 Intent 版本和正式 Issue 归属；成功后才通知页面。记录与幂等回执的事务失败回滚，内容重试一致。
+
+这些检查只约束应用接口；同一 OS 用户直读凭据、改库和改代码的宿主风险依然未解决。记录中的模型陈述可能误导人，界面明确标注来源及报告未经实际运行核验；该标记不代替独立验证。完整可信保护和安全实验状态未改变。
+
+## B3 候选变更与人端授权
+
+change:propose 是人端发放时明确选择的独立能力，逐项目 / Intent / 具体对象检查；基础提案权限和普通记录权限不能替代。候选原文由服务从当前正式内容读取，调用者不能伪造 before、已批准、授权或人工字段。候选没有编辑入口，失败基准需要另提建议。
+
+Intent 商讨登记、授权撤销和修订决定均只接受人端会话；工具直接请求被拒。登记要求明确确认、结论和来源，绑定这份候选；授权变化推进建议版本，使旧决定失效。版本、事务、幂等检查用于避免旧审阅、部分生效或重复应用；不等同于操作系统防篡改。
+
+人端输入来源和勾选框不能独立证明对话确已发生，本版忠实记录账户通路的确认。旧库增量迁移不提升其可信等级，候选和记录中的不可信内容只作文本展示。安全实验、宿主隔离和可信晋升状态未改变。
+
+## 工作区读取、符号链接、运行时绑定与外发边界（2026-10-26）
+
+- **工作区授权与缺省边界**：项目创建不强制绑定工作区；未配置或未显式授权工作区的 Run，模型可调用的 `tools` 严格为 `[]`，不回退到当前工作目录或环境变量。模型仅基于只读结构化快照提炼候选，不能发起任何工作区读取。Run 的授权元数据与运行时绑定（`runtime: { id, configVersion, provider, model, endpoint, external }`）持久化保存（不含凭据），UI 真实展示运行时 ID、配置版本、模型服务商、实际端点、是否直连外部网络与工具范围。
+- **运行时统一解析与默认拒绝外发（Fail-Closed Endpoint Classification）**：`start`、`resume`、`fork` 与 `execute` 统一通过 `RuntimeRegistry.resolve` 解析同一份 `ResolvedRuntime`。自定义或默认 `ModelPort` 不再伪装为本地 `scripted` 端口；仅明确声明为 `local://in-memory` 的进程内端口视为本地非外发，合法 `https://` / Loopback `http://` 端点按实际主机判定是否属于外部端点，其余未知协议或缺失端点的端口默认拒绝（`UNKNOWN_ENDPOINT_DENIED`）。同名模型冲突显式报错（`AMBIGUOUS_RUNTIME`），运行时配置变更递增 `version`，既有 Run 在未显式重新切换绑定前检测到配置版本漂移会拒绝隐式改道（`RUNTIME_CONFIG_CHANGED`）。
+- **执行实例隔离（`executionId`）**：每次启动、恢复或分叉执行分配独立 `executionId`。超时、取消或中断后的旧异步请求在检查点写入、指标累加、候选提交及完成/失败回调前均核对当前活跃 `executionId`，阻断迟到响应覆盖或污染新一次恢复执行。
+- **链接策略 B 与完整符号链接解析链核验（Hop-by-Hop Symlink Chain Verification）**：允许授权工作区内部的安全源码符号链接，同时逐跳（`lstatSync` + `readlinkSync`）核对请求中的逻辑路径、每一级符号链接跳点、中间目录解析位置与最终物理路径（`realpathSync`）。即使链接最终指回工作区内普通源码目录，只要中间任一跳经过工作区外部（`PATH_TRAVERSAL_DENIED`）、超出 `readScope` / 命中 `exclude`（`OUT_OF_READ_SCOPE`），或触及内置敏感黑名单（`.git`、`node_modules`、`.agenthub`、`.env*`、SQLite 数据库文件、`runs`、`record-projects`、私钥凭据）及实际配置的存储目录 `protectedPaths`（`PROTECTED_PATH_DENIED`），`read_file`、`list_directory` 与同步/异步 `search_code` 均拒绝或过滤该入口；循环链接与过深链接链（> 16 跳）明确拒绝（`SYMLINK_LOOP_DENIED`）。
+- **威胁模型事实声明**：应用层的文件与逐跳符号链接检查旨在防御模型参数或静态仓库链接链越界读取、敏感路径探测和跨目录逃逸，**不是针对同一 OS 用户下任意恶意并发进程的完整 OS 沙箱，无法抵御同用户下的并发 TOCTOU 文件替换**。
+- **资源消耗与逐请求字节预算边界**：
+  - 工具单次输出实行严格的 16 KiB UTF-8 字节上限（结构化裁剪保留合法 JSON），不破坏多字节 UTF-8 字符序列。
+  - `readFile` 采用流式按行扫描与文件描述符读取，不将大文件整体读入内存；单行长度（最大 4096 字符）、单文件扫描预算（512 KiB）与超时受限，大 `startLine` 无法绕过扫描预算。
+  - `searchCode` / `searchCodeAsync` 限制目录深度（<= 8）、扫描文件总数（<= 200）、扫描字节（<= 1 MB）和匹配数量（<= 25），明确区分“未找到匹配”（`count: 0, truncated: false`）与“扫描受限中断”（`truncated: true`）。
+  - 每次真实模型请求（含多步工具循环的每一轮 `step` 及回退 `propose`）均按实际外发负载（快照 + 历史步骤与工具输出 + 工具 Schema / 提示词开销）检查并累计 `calls` 与 UTF-8 `inputBytes`，与底层服务商分词器（Tokenizer）的 Token 计费估算严格区分。
+
+## 安全与一致性缺口加固与冷启动恢复门禁（2026-10-27）
+
+- **大小写不敏感文件系统路径别名防御（Case-Insensitive Path Normalization）**：在 macOS / Windows 等文件系统上，`fs.existsSync` 或字符串查找对大小写不敏感，使得恶意参数可通过 `.ENV`、`PRIVATESTORE` 或 `TEMP/` 绕过敏感文件黑名单、`protectedPaths`、`exclude` 或 `readScope` 的普通字符串比较。`WorkspaceToolExecutor` 引入大小写折叠（case-folding）校验，并结合 `fs.realpathSync.native` 规范化物理磁盘上的真实大小写路径，确保在大小写不敏感环境下依然严格拦截路径逃逸。
+- **Provider HTTP 重定向拦截（Anti-Redirect Hijacking）**：底层 HTTP `fetch` 默认跟随 307/308 重定向，可能导致已通过授权端点校验的请求敏感负载被转发至未经授权的目标端点。模型 Provider 配置 `redirect: 'manual'`，显式拒绝任何 3xx 重定向并抛出 `403 REDIRECT_NOT_ALLOWED`，并记录目标 URL，杜绝跨源静默转发生效。
+- **Provider 有界流式读取与超限熔断（Bounded Stream Reading）**：废除将完整 HTTP 响应体一次性读入内存后再校验输出大小的后置逻辑。在 Provider 层通过流式 reader 分块累积，一旦累积字节超出 `maxOutputBytes`，立即调用 `reader.cancel()` 中断网络连接并抛出 `413 RESPONSE_SIZE_EXCEEDED`；错误响应同样施加 4096 字节有界截断，并记录失败前已消耗的资源。
+- **运行时配置指纹与完整端点路径绑定**：端点分类与绑定保留完整 URL 路径（如 `/tenant-a` vs `/tenant-b`），计算非敏感配置的 SHA-256 确定性指纹，禁止重启后或运行时配置修改后静默改道。
+- **依赖失效级联传播与冷启动门禁（STOP_AND_REPORT_GAP）**：上游单元变更不仅回退下游对象工作状态，更级联将下游所有 `passed` 核查置为 `unknown` 并保留历史证据；冷启动恢复状态机在发现记录矛盾、修订滞后或意图未确认时，坚决返回 `STOP_AND_REPORT_GAP` 门禁，严禁模型自主猜测或自动合入未决候选。
+- **端到端有界流式输出与已知消耗保留**：将 Run 剩余输出预算 `stepRemainingBudget` 严格绑定到底层流式 reader，超限立即 `reader.cancel()` 中断网络连接并抛出 `413 RESPONSE_SIZE_EXCEEDED`；在异常、中断、无效 JSON 或流取消时，捕获失败前已读取字节并在 Run 账本中保留已知消耗（`outputBytes` 与 `deltaOutputBytes`），明确区分网络原始响应字节与候选序列化字节。
+- **运行时配置身份绑定与闭门防御（Fail-Closed Runtime Identity）**：拒绝 URL 查询参数与锚点（`UNSUPPORTED_RUNTIME_URL_QUERY`）；指纹保留 URL 路径、模型名与环境变量名的大小写；彻底移除未知 ModelPort 的本地脚本化隐式推断，未知端口坚决拒绝（`403 UNKNOWN_PORT_DENIED`）；运行时配置变更必须通过指纹检查阻断静默改道（`409 RUNTIME_CONFIG_CHANGED`）。
+- **文件读取范围严格大小写敏感校验**：在大小写不敏感文件系统上（如 macOS APFS），严格比对路径字符串大小写，仅在物理磁盘路径确为同一文件时允许安全源码访问，防止通过大小写变形逃逸 `readScope` 限制。
+
+## 错误响应有界读取、无指纹旧运行闭门策略与路由防御（2026-10-28）
+
+- **非200错误响应有界读取与真实字节计量（Bounded Error Reading & Byte Accounting）**：底层模型 Provider 在处理 429、500 等异常 HTTP 状态码时，错误响应读取上限与本次剩余输出预算对齐（`Math.min(4096, maxBytes)`，其中 `maxBytes` 取单步剩余输出预算），防止恶意或超限错误体耗尽内存；底层 reader 抛出错误或网络中断时保留已读取字节数 `bytesRead`，由 Harness 调度循环准确累计入 `run.metrics.outputBytes`，避免失败导致已知消耗丢失。
+- **旧运行缺失指纹严格闭门防御（Fail-Closed Policy on Missing Fingerprint）**：当 Run 账本中的 `runtimeBinding` 缺少配置指纹 `fingerprint` 时，系统在恢复解析（`resolveBoundRuntime`）阶段严格抛出 `409 MISSING_RUNTIME_FINGERPRINT`，阻断仅凭模型名称字符串绕过指纹校验恢复；冷启动推导将其清晰标为指纹缺失并推导 `REQUIRE_RUN_AUTHORIZATION` 要求人端重新授权。
+- **Markdown 恢复路由异常与并发防护**：恢复服务 Markdown 路由在先完成身份、项目存在性与数据有效性校验并完整生成文档内容之后，才发送 HTTP 200 响应头；在异常处理块中加入 `res.headersSent` 守卫，杜绝因项目不存在或数据损坏导致的 `ERR_HTTP_HEADERS_SENT` 与未处理 Promise 拒绝。
+
+## 整体验收门禁无副作用校验、Fail-Closed 结构安全与纯只读消费端隔离（2026-10-28）
+
+- **整体验收前置检查严格一致性（Acceptance Preflight Gate Parity）**：`checkRequirementAcceptanceEligibility` 严格覆盖完成态全部结构与关系约束（包含需求关联最终 Pull Request、交付结果、各验收准则具备有效非模型核查且指向有效已核验依据、所有子产物已处于完成态且无悬空引用），作为服务层 `RecordProjectService.acceptRequirement` 的直接前置校验，消除“恢复视图建议整体验收但提交必被拒”的不一致。若前置检查不满足，恢复视图绝不给出 `REQUEST_HUMAN_OVERALL_ACCEPTANCE` 或 `executableNow=true`，诚实列出未就绪项。
+- **结构损坏 Fail-Closed 最小安全视图（Fail-Closed Structural Safety）**：遇到数据结构损坏（如顶级集合缺失或校验失败），绝不调用关系检查，不抛出 `TypeError`，统一返回最小安全恢复视图（`actionCode: 'STOP_AND_REPORT_GAP', executableNow: false`）。
+- **纯只读投影与人端主体检查解耦（Read-Only Projection Decoupling）**：RecoveryService 纯只读投影面向内部/离线消费者提供 `getProjectRecovery`，不伪造人端凭证，CLI 独立消费者无需伪造身份即可安全执行。面向 HTTP 路由的 `getRecoveryView` 依然保持人端会话门禁。
