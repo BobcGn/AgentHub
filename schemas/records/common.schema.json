@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/common",
+  "title": "AgentHub record primitives",
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,119}$"
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "pattern": "\\S"
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "excludes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "includes",
+        "excludes"
+      ]
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        },
+        "description": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        },
+        "verification": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "verification"
+      ]
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "requirement",
+            "unit",
+            "story",
+            "bolt_plan"
+          ]
+        },
+        "id": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "what": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        },
+        "why": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        },
+        "actualImpact": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "what",
+        "why",
+        "actualImpact",
+        "evidenceRefs"
+      ]
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "outcome": {
+          "enum": [
+            "accepted",
+            "changes_requested"
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+            }
+          ]
+        }
+      },
+      "required": [
+        "outcome",
+        "sourceRefs",
+        "reason"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "changes_requested"
+              }
+            },
+            "required": [
+              "outcome"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "enum": [
+            "proposed",
+            "human_confirmed"
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "state",
+        "sourceRefs"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "const": "human_confirmed"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sourceRefs": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

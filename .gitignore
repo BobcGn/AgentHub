@@ -12,3 +12,11 @@ coverage/
 
 # Upstream reference checkouts are not AgentHub source.
 /references/
+
+# Local board credentials, SQLite files, browser test artifacts
+.agenthub/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+test-results/
+playwright-report/

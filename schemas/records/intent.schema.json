@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/intent",
+  "title": "Intent purpose and human-confirmation record",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "problem": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "expectedOutcome": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includes": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+          },
+          "uniqueItems": true
+        },
+        "excludes": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "includes",
+        "excludes"
+      ]
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "confirmation": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/confirmation"
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "problem",
+    "expectedOutcome",
+    "scope",
+    "constraints",
+    "confirmation",
+    "sourceRefs"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "confirmation": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "const": "human_confirmed"
+              }
+            },
+            "required": [
+              "state"
+            ]
+          }
+        },
+        "required": [
+          "confirmation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "title": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+          },
+          "problem": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+          },
+          "expectedOutcome": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+          },
+          "scope": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/scope"
+          }
+        }
+      }
+    }
+  ]
+}

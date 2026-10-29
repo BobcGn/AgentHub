@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/source",
+  "title": "Minimal provenance, not a full transcript",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "kind": {
+      "enum": [
+        "conversation",
+        "message",
+        "reference",
+        "tool_output",
+        "human_observation"
+      ]
+    },
+    "locator": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "excerpt": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "locator",
+    "excerpt"
+  ]
+}

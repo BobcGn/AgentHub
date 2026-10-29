@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/evidence",
+  "title": "Evidence description and applicability",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "requirementId": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/target"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "description": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "subject": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "environment": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "observedResult": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "id",
+    "requirementId",
+    "targets",
+    "description",
+    "subject",
+    "environment",
+    "observedResult",
+    "limitations",
+    "sourceRefs"
+  ]
+}

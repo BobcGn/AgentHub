@@ -1,0 +1,15 @@
+{
+  "targetKind": "intent",
+  "targetId": "<填写 Intent ID>",
+  "baseVersion": 1,
+  "intentVersion": 1,
+  "planVersion": 2,
+  "reason": "候选澄清，需先与本人商讨后决定是否授权。",
+  "impact": "已有 Issue 需逐项核对与新意图的关系；本建议不增加工具权限。",
+  "after": {
+    "title": "让筛选结果符合用户预期",
+    "problem": "切换条件后结果没有更新，用户无法确认当前筛选生效。",
+    "outcome": "筛选条件与展示结果始终一致，并能区分加载过程。",
+    "verification": "实际切换条件，核对最终结果与最后条件一致，并观察加载提示。"
+  }
+}

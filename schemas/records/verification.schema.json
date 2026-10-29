@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/verification",
+  "title": "Reported verification, not trusted authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "target": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/target"
+    },
+    "criterionId": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "outcome": {
+      "enum": [
+        "passed",
+        "failed",
+        "unknown"
+      ]
+    },
+    "method": {
+      "enum": [
+        "static_check",
+        "test",
+        "runtime_observation",
+        "human_observation",
+        "model_review",
+        "other"
+      ]
+    },
+    "explanation": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "id",
+    "target",
+    "criterionId",
+    "outcome",
+    "method",
+    "explanation",
+    "evidenceRefs",
+    "sourceRefs"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "enum": [
+              "passed",
+              "failed"
+            ]
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "evidenceRefs": {
+            "type": "array",
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

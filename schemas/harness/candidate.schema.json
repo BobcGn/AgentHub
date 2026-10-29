@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/harness/v1/candidate",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "requirementId",
+        "category",
+        "epistemicStatus",
+        "content",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "append_context"
+        },
+        "requirementId": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        },
+        "category": {
+          "enum": [
+            "open_question",
+            "assumption",
+            "decision"
+          ]
+        },
+        "epistemicStatus": {
+          "enum": [
+            "unknown",
+            "proposed"
+          ]
+        },
+        "content": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "category": {
+                "const": "open_question"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          },
+          "then": {
+            "properties": {
+              "epistemicStatus": {
+                "const": "unknown"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "category": {
+                "const": "decision"
+              }
+            },
+            "required": [
+              "category"
+            ]
+          },
+          "then": {
+            "properties": {
+              "epistemicStatus": {
+                "const": "proposed"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "requirementId",
+        "acceptanceCriteria",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "propose_criteria"
+        },
+        "requirementId": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        },
+        "acceptanceCriteria": {
+          "type": "array",
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/criterion"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "requirementId",
+        "stories",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "propose_decomposition"
+        },
+        "requirementId": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        },
+        "units": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "https://agenthub.local/schemas/records/v1/unit"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "const": "draft"
+                  },
+                  "result": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          },
+          "uniqueItems": true
+        },
+        "stories": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "https://agenthub.local/schemas/records/v1/story"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "const": "draft"
+                  },
+                  "result": {
+                    "type": "null"
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "requirementId",
+        "boltPlan",
+        "sourceRefs"
+      ],
+      "properties": {
+        "type": {
+          "const": "propose_bolt_plan"
+        },
+        "requirementId": {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        },
+        "boltPlan": {
+          "allOf": [
+            {
+              "$ref": "https://agenthub.local/schemas/records/v1/bolt-plan"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "const": "draft"
+                },
+                "result": {
+                  "type": "null"
+                }
+              }
+            }
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+          }
+        }
+      }
+    }
+  ]
+}

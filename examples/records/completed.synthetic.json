@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "1.0.0",
+  "intent": {
+    "id": "DEMO-INTENT-1",
+    "title": "可理解且可核验的开发记录（演示）",
+    "problem": "演示：普通文本不足以明确对象关系。",
+    "expectedOutcome": "演示：从意图追溯到需求、子产物和证据。",
+    "scope": {
+      "includes": [
+        "结构化记录"
+      ],
+      "excludes": [
+        "真实运行能力证明"
+      ]
+    },
+    "constraints": [
+      "示例不得当作真实执行或人工验收证据。"
+    ],
+    "confirmation": {
+      "state": "human_confirmed",
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ]
+    },
+    "sourceRefs": [
+      "DEMO-SOURCE-1"
+    ]
+  },
+  "requirements": [
+    {
+      "kind": "requirement",
+      "id": "DEMO-REQ-1",
+      "title": "建立 JSON Schema 记录合同（演示）",
+      "problem": "演示：需要明确记录结构及其追溯关系。",
+      "expectedOutcome": "演示：记录可以被一致读取和校验。",
+      "scope": {
+        "includes": [
+          "JSON Schema 与关系校验"
+        ],
+        "excludes": [
+          "实际项目数据修改"
+        ]
+      },
+      "rationale": "演示：先建立可验证的数据合同，减少解释偏移。",
+      "expectedImpact": "演示：记录结构与对应验收依据更明确。",
+      "acceptanceCriteria": [
+        {
+          "id": "DEMO-AC-REQ",
+          "description": "演示：对应产物符合本项约束。",
+          "verification": "使用独立合法 / 非法样例核对预期。"
+        }
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "status": "done",
+      "result": {
+        "what": "演示：形成对应的记录产物。",
+        "why": "演示：先建立可验证的数据合同，减少解释偏移。",
+        "actualImpact": "演示：当前结构可以通过预期校验。",
+        "evidenceRefs": [
+          "DEMO-EVIDENCE-1"
+        ]
+      },
+      "intentId": "DEMO-INTENT-1",
+      "constraints": [
+        "演示资料不代表已执行或用户已接受。"
+      ],
+      "acceptance": {
+        "outcome": "accepted",
+        "sourceRefs": [
+          "DEMO-SOURCE-3"
+        ],
+        "reason": null
+      },
+      "pullRequest": {
+        "url": "https://github.com/example/agenthub-demo/pull/1",
+        "what": "合成示例：汇总本需求的产物。",
+        "why": "合成示例：聚焦单一需求。",
+        "verification": "合成示例：关联各子产物的核查记录。",
+        "result": "合成示例：整体与局部条件均有记录。"
+      }
+    }
+  ],
+  "units": [
+    {
+      "kind": "unit",
+      "id": "DEMO-UNIT-1",
+      "title": "结构合同（演示）",
+      "problem": "演示：需要明确记录结构及其追溯关系。",
+      "expectedOutcome": "演示：记录可以被一致读取和校验。",
+      "scope": {
+        "includes": [
+          "JSON Schema 与关系校验"
+        ],
+        "excludes": [
+          "实际项目数据修改"
+        ]
+      },
+      "rationale": "演示：先建立可验证的数据合同，减少解释偏移。",
+      "expectedImpact": "演示：记录结构与对应验收依据更明确。",
+      "acceptanceCriteria": [
+        {
+          "id": "DEMO-AC-UNIT",
+          "description": "演示：对应产物符合本项约束。",
+          "verification": "使用独立合法 / 非法样例核对预期。"
+        }
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "status": "done",
+      "result": {
+        "what": "演示：形成对应的记录产物。",
+        "why": "演示：先建立可验证的数据合同，减少解释偏移。",
+        "actualImpact": "演示：当前结构可以通过预期校验。",
+        "evidenceRefs": [
+          "DEMO-EVIDENCE-1"
+        ]
+      },
+      "requirementId": "DEMO-REQ-1",
+      "dependsOn": [],
+      "responsibilities": [
+        "定义各层记录的字段含义"
+      ],
+      "inputs": [
+        "已确认的需求边界"
+      ],
+      "outputs": [
+        "可校验的数据合同"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "kind": "story",
+      "id": "DEMO-STORY-1",
+      "title": "使用者识别错误记录（演示）",
+      "problem": "演示：需要明确记录结构及其追溯关系。",
+      "expectedOutcome": "演示：记录可以被一致读取和校验。",
+      "scope": {
+        "includes": [
+          "JSON Schema 与关系校验"
+        ],
+        "excludes": [
+          "实际项目数据修改"
+        ]
+      },
+      "rationale": "演示：先建立可验证的数据合同，减少解释偏移。",
+      "expectedImpact": "演示：记录结构与对应验收依据更明确。",
+      "acceptanceCriteria": [
+        {
+          "id": "DEMO-AC-STORY",
+          "description": "演示：对应产物符合本项约束。",
+          "verification": "使用独立合法 / 非法样例核对预期。"
+        }
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "status": "done",
+      "result": {
+        "what": "演示：形成对应的记录产物。",
+        "why": "演示：先建立可验证的数据合同，减少解释偏移。",
+        "actualImpact": "演示：当前结构可以通过预期校验。",
+        "evidenceRefs": [
+          "DEMO-EVIDENCE-1"
+        ]
+      },
+      "requirementId": "DEMO-REQ-1",
+      "dependsOn": [],
+      "unitId": "DEMO-UNIT-1",
+      "userValue": "使用者可以知道哪一项输入违反记录合同。"
+    }
+  ],
+  "boltPlans": [
+    {
+      "kind": "bolt_plan",
+      "id": "DEMO-BOLT-1",
+      "title": "合同与校验批次（演示）",
+      "problem": "演示：需要明确记录结构及其追溯关系。",
+      "expectedOutcome": "演示：记录可以被一致读取和校验。",
+      "scope": {
+        "includes": [
+          "JSON Schema 与关系校验"
+        ],
+        "excludes": [
+          "实际项目数据修改"
+        ]
+      },
+      "rationale": "演示：先建立可验证的数据合同，减少解释偏移。",
+      "expectedImpact": "演示：记录结构与对应验收依据更明确。",
+      "acceptanceCriteria": [
+        {
+          "id": "DEMO-AC-BOLT",
+          "description": "演示：对应产物符合本项约束。",
+          "verification": "使用独立合法 / 非法样例核对预期。"
+        }
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "status": "done",
+      "result": {
+        "what": "演示：形成对应的记录产物。",
+        "why": "演示：先建立可验证的数据合同，减少解释偏移。",
+        "actualImpact": "演示：当前结构可以通过预期校验。",
+        "evidenceRefs": [
+          "DEMO-EVIDENCE-1"
+        ]
+      },
+      "requirementId": "DEMO-REQ-1",
+      "dependsOn": [],
+      "storyIds": [
+        "DEMO-STORY-1"
+      ],
+      "constructionType": "simple",
+      "stages": [
+        "Plan",
+        "Implement",
+        "Test"
+      ],
+      "exitConditions": [
+        "合法 / 非法样例的预期得到核对"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "DEMO-SOURCE-1",
+      "kind": "conversation",
+      "locator": "demo:discussion/1 — 合成演示出处，不是实际审批记录",
+      "excerpt": "示例：一个 Requirement 对应一个 PR，子产物分别核验。"
+    },
+    {
+      "id": "DEMO-SOURCE-2",
+      "kind": "tool_output",
+      "locator": "demo:synthetic-check-output",
+      "excerpt": "合成样例中的通过描述，不是实际测试回执。"
+    },
+    {
+      "id": "DEMO-SOURCE-3",
+      "kind": "human_observation",
+      "locator": "demo:synthetic-human-acceptance",
+      "excerpt": "合成样例中的人端接受描述，不是用户实际验收。"
+    }
+  ],
+  "contextItems": [
+    {
+      "id": "DEMO-CONTEXT-1",
+      "requirementId": "DEMO-REQ-1",
+      "category": "decision",
+      "content": "示例决定：每项需求最终对应一个 PR。",
+      "epistemicStatus": "confirmed",
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "evidenceRefs": []
+    },
+    {
+      "id": "DEMO-CONTEXT-2",
+      "requirementId": "DEMO-REQ-1",
+      "category": "open_question",
+      "content": "真实任务中是否减少理解偏移，仍待实际观察。",
+      "epistemicStatus": "unknown",
+      "sourceRefs": [
+        "DEMO-SOURCE-1"
+      ],
+      "evidenceRefs": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "DEMO-EVIDENCE-1",
+      "requirementId": "DEMO-REQ-1",
+      "targets": [
+        {
+          "kind": "requirement",
+          "id": "DEMO-REQ-1"
+        },
+        {
+          "kind": "unit",
+          "id": "DEMO-UNIT-1"
+        },
+        {
+          "kind": "story",
+          "id": "DEMO-STORY-1"
+        },
+        {
+          "kind": "bolt_plan",
+          "id": "DEMO-BOLT-1"
+        }
+      ],
+      "description": "演示各层复用同一报告时明确列出适用对象。",
+      "subject": "demo:record-contract/snapshot-1",
+      "environment": "合成夹具，无实际执行环境",
+      "observedResult": "演示值：各项检查均符合预期。",
+      "limitations": [
+        "不证明实际工具执行、审批真实性或业务语义。"
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-2"
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "id": "DEMO-CHECK-1",
+      "target": {
+        "kind": "requirement",
+        "id": "DEMO-REQ-1"
+      },
+      "criterionId": "DEMO-AC-REQ",
+      "outcome": "passed",
+      "method": "test",
+      "explanation": "合成演示的核查结果。",
+      "evidenceRefs": [
+        "DEMO-EVIDENCE-1"
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-2"
+      ]
+    },
+    {
+      "id": "DEMO-CHECK-2",
+      "target": {
+        "kind": "unit",
+        "id": "DEMO-UNIT-1"
+      },
+      "criterionId": "DEMO-AC-UNIT",
+      "outcome": "passed",
+      "method": "test",
+      "explanation": "合成演示的核查结果。",
+      "evidenceRefs": [
+        "DEMO-EVIDENCE-1"
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-2"
+      ]
+    },
+    {
+      "id": "DEMO-CHECK-3",
+      "target": {
+        "kind": "story",
+        "id": "DEMO-STORY-1"
+      },
+      "criterionId": "DEMO-AC-STORY",
+      "outcome": "passed",
+      "method": "test",
+      "explanation": "合成演示的核查结果。",
+      "evidenceRefs": [
+        "DEMO-EVIDENCE-1"
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-2"
+      ]
+    },
+    {
+      "id": "DEMO-CHECK-4",
+      "target": {
+        "kind": "bolt_plan",
+        "id": "DEMO-BOLT-1"
+      },
+      "criterionId": "DEMO-AC-BOLT",
+      "outcome": "passed",
+      "method": "test",
+      "explanation": "合成演示的核查结果。",
+      "evidenceRefs": [
+        "DEMO-EVIDENCE-1"
+      ],
+      "sourceRefs": [
+        "DEMO-SOURCE-2"
+      ]
+    }
+  ]
+}

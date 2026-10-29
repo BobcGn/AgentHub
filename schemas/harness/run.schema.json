@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/harness/v1/run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "id",
+    "revision",
+    "projectId",
+    "requirementId",
+    "createdAt",
+    "requestId",
+    "requestHash",
+    "baseRevision",
+    "state",
+    "stopReason",
+    "authorization",
+    "limits",
+    "model",
+    "calls",
+    "snapshot",
+    "candidate",
+    "issues",
+    "outcome",
+    "receipt",
+    "events"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9-]{1,100}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "projectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requirementId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "createdAt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requestId": {
+      "type": "string",
+      "minLength": 8
+    },
+    "requestHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "baseRevision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "state": {
+      "enum": [
+        "running",
+        "waiting_human",
+        "applying",
+        "completed",
+        "failed",
+        "cancelled",
+        "interrupted"
+      ]
+    },
+    "stopReason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "expiresAt",
+        "operation"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "expiresAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT"
+        },
+        "operation": {
+          "const": "propose_context"
+        },
+        "workspace": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "authorized",
+            "root",
+            "readScope",
+            "exclude",
+            "egressScope"
+          ],
+          "properties": {
+            "authorized": {
+              "type": "boolean"
+            },
+            "root": {
+              "type": "string"
+            },
+            "readScope": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "exclude": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "egressScope": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxInputBytes",
+        "maxOutputBytes",
+        "timeoutMs",
+        "maxCalls"
+      ],
+      "properties": {
+        "maxInputBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxOutputBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxCalls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxToolCalls": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "runtime": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "configVersion",
+            "provider",
+            "model",
+            "endpoint",
+            "external"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "configVersion": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "provider": {
+              "enum": [
+                "scripted",
+                "deepseek",
+                "openai-compatible"
+              ]
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "endpoint": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "external": {
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "type": "string",
+              "maxLength": 64
+            }
+          }
+        }
+      ]
+    },
+    "executionId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "calls": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "inputBytes",
+        "outputBytes",
+        "toolCallsCount",
+        "durationMs"
+      ],
+      "properties": {
+        "inputBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "outputBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "toolCallsCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "fork": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "parentRunId",
+            "parentRevision",
+            "forkPointStep"
+          ],
+          "properties": {
+            "parentRunId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "parentRevision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "forkPointStep": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "snapshot": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "projectId",
+            "requirementId",
+            "projectRevision",
+            "intent",
+            "requirement",
+            "contextItems",
+            "sources",
+            "instruction",
+            "omitted",
+            "bytes",
+            "hash"
+          ],
+          "properties": {
+            "projectId": {
+              "type": "string"
+            },
+            "requirementId": {
+              "type": "string"
+            },
+            "projectRevision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "intent": {
+              "$ref": "https://agenthub.local/schemas/records/v1/intent"
+            },
+            "requirement": {
+              "$ref": "https://agenthub.local/schemas/records/v1/requirement"
+            },
+            "contextItems": {
+              "type": "array",
+              "items": {
+                "$ref": "https://agenthub.local/schemas/records/v1/context-item"
+              }
+            },
+            "sources": {
+              "type": "array",
+              "items": {
+                "$ref": "https://agenthub.local/schemas/records/v1/source"
+              }
+            },
+            "instruction": {
+              "type": "string",
+              "maxLength": 600
+            },
+            "omitted": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "bytes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "hash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "focusOutline": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://agenthub.local/schemas/harness/v1/candidate"
+        }
+      ]
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "path",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outcome": {
+      "enum": [
+        null,
+        "kept",
+        "rejected",
+        "applied"
+      ]
+    },
+    "receipt": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "projectRevision",
+            "auditId",
+            "contextId"
+          ],
+          "properties": {
+            "projectRevision": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "auditId": {
+              "type": "string"
+            },
+            "contextId": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "turns": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "role"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "role": {
+            "enum": [
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "toolCalls": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "name",
+                "arguments"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "arguments": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "toolCallId": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sequence",
+          "at",
+          "type",
+          "details"
+        ],
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "at": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
