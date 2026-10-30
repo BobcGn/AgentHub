@@ -1,0 +1,19 @@
+{
+  "targetKind": "issue",
+  "targetId": "<填写正式 Issue ID>",
+  "baseVersion": 1,
+  "intentVersion": 1,
+  "planVersion": 2,
+  "reason": "补充快速切换的可重复验证步骤，便于人工核对结果。",
+  "impact": "只细化验证步骤，保留列表筛选功能边界；增加重复切换的检查成本。",
+  "after": {
+    "title": "修复筛选条件切换后结果未刷新",
+    "problem": "旧结果造成误判。",
+    "scope": "只涉及列表筛选刷新，不调整搜索及权限。",
+    "solution": "统一条件变更触发的结果更新。",
+    "benefits": "减少结果误判。",
+    "risks": "频繁切换可能产生请求竞态，需要验证。",
+    "verification": "切换两个不同条件并验证结果；连续快速切换十次，最终不得显示旧请求结果，必须与最后选定的条件一致。",
+    "parentIssueId": null
+  }
+}

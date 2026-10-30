@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/record-set",
+  "title": "AgentHub JSON record set v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "intent": {
+      "$ref": "https://agenthub.local/schemas/records/v1/intent"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/requirement"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/unit"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "stories": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/story"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "boltPlans": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/bolt-plan"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/source"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "contextItems": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/context-item"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/evidence"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "verifications": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/verification"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "intent",
+    "requirements",
+    "units",
+    "stories",
+    "boltPlans",
+    "sources",
+    "contextItems",
+    "evidence",
+    "verifications"
+  ]
+}

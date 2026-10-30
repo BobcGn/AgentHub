@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agenthub.local/schemas/records/v1/story",
+  "title": "Story user value and verifiable acceptance",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "const": "story"
+    },
+    "id": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "title": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "problem": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "expectedOutcome": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "scope": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/scope"
+    },
+    "rationale": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "expectedImpact": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/criterion"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "sourceRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "planned",
+        "in_progress",
+        "review",
+        "done"
+      ]
+    },
+    "result": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/result"
+        }
+      ]
+    },
+    "requirementId": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": {
+        "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/target"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "unitId": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/id"
+        }
+      ]
+    },
+    "userValue": {
+      "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/text"
+    }
+  },
+  "required": [
+    "kind",
+    "id",
+    "title",
+    "problem",
+    "expectedOutcome",
+    "scope",
+    "rationale",
+    "expectedImpact",
+    "acceptanceCriteria",
+    "sourceRefs",
+    "status",
+    "result",
+    "requirementId",
+    "dependsOn",
+    "unitId",
+    "userValue"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "not": {
+              "const": "draft"
+            }
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "acceptanceCriteria": {
+            "type": "array",
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "review",
+              "done"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "$ref": "https://agenthub.local/schemas/records/v1/common#/$defs/result"
+          }
+        }
+      }
+    }
+  ]
+}
