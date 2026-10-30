@@ -1,5 +1,10 @@
 # 记录体系与 Harness 建设计划
 
+> [!IMPORTANT]
+> **演进与最新路线图索引（2026-10-30）**：本文件保留 2026-10-25 确立记录体系优先与 Harness 雏形建设的历史计划。当前 JSON Schema 完善工作已全面升级为具备 24 项决策基线（SC-001—SC-024）与 13 阶段实施计划（P01—P13）的完整体系，详细路线图、合同总图与验收矩阵统一见 [JSON Schema 路线图](json-schema-roadmap.md)。
+>
+> 下文中保留的历史描述（如“一个 Requirement 对应一个最终 PR”）已被新基线 **SC-005（PR 可选及多 PR）** 明确废除与替代。
+
 日期：2026-10-25。用户明确调整当前推进目标：先建立 AgentHub 专属 Markdown + JSON Schema 记录体系，后续将结构化内容映射到分状态 Issue 看板；同时建设自有 Harness，便于接入 LLM 后推进和验证符合 Intent 的工作。此前“先完成决策走读和审阅交互，再建模型 / Harness”的次序已被本次调整替代。
 
 总目标与[先理解再推进](governance.md#先理解再推进)、意图修改及人工最终验收责任继续有效。当前优先建设支撑这些目标的基础；LLM 参与的解释、审查和语义验证在接入后开展，结构、引用、状态和权限等确定性检查随基础建设进行。本文给出可评阅的实施方向，不声称下述合同、状态和模块已经实现或获得最终设计确认。
@@ -10,7 +15,7 @@
 
 ## 当前范围：JSON 合同与正式看板
 
-用户先明确只建设 JSON Schema，之后明确要求直接替换正式看板并确定保存与旧数据适配，选择人端核对迁移预览后另存 JSON。该正式看板轮次实现了 Requirement 状态列、分块详情、手动分层编辑、JSON 持久化及迁移预览；当时不含 Harness。用户后续已授权并实现首节的最小 Harness，目录 / Git 管理及团队协作仍未建设。一个 Requirement 对应一个最终 PR，内部可选 Unit / Story / Bolt Plan 分层、分别验收；长期 JSON 提炼关键内容并保留最小出处。现行合同见[说明](json-schema-contract.md)，使用见[指南](record-board-quickstart.md)。下文总体候选以当前范围与实际状态为准。
+用户先明确只建设 JSON Schema，之后明确要求直接替换正式看板并确定保存与旧数据适配，选择人端核对迁移预览后另存 JSON。该正式看板轮次实现了 Requirement 状态列、分块详情、手动分层编辑、JSON 持久化及迁移预览；当时不含 Harness。用户后续已授权并实现首节的最小 Harness，目录 / Git 管理及团队协作仍未建设。当时曾采用“一个 Requirement 对应一个最终 PR”的历史规则（该规则已于 2026-10-30 由 SC-005 废除并升级为可选 0..N 个 PR，见[路线图](json-schema-roadmap.md)），内部可选 Unit / Story / Bolt Plan 分层、分别验收；长期 JSON 提炼关键内容并保留最小出处。现行合同见[说明](json-schema-contract.md)，使用见[指南](record-board-quickstart.md)。下文总体候选以当前范围与实际状态为准。
 
 ## 两项建设目标
 

@@ -15,7 +15,7 @@
      - 生产构建模式：必须先执行 `npm run build`，产物入口为 `node dist/index.js`（`npm start`），不存在 `dist/src/index.js`。
 2. **零数据模式与方案 A 约束**：
    - **方案 A（已确认）**：恢复视图完全由现有正式 RecordProject（JSON 实例）与 Run 账本（`runs/${targetRunId}.json`）纯函数投影派生，**绝不新增可独立编辑的第三方事实源，绝不为了恢复功能扩张正式业务 Schema**。
-   - **用户确认的 Intent 是目标与预期行为的唯一规范事实源**；一个 Requirement 对应一个最终 PR。
+   - **用户确认的 Intent 是目标与预期行为的唯一规范事实源**；Requirement 为可验证交付边界（依据 2026-10-30 确立的 SC-005，PR 为可选交付关联，支持 0..N 个 PR，无 PR 时仍可通过证据完成验收，替代历史单 PR 规则；当前代码处于单 PR 阶段，安排在 P06 改造）。
    - **Unit / Story / Bolt Plan 层级按需出现**；模型仅产出候选，正式应用与整体验收必须由独立人端决策（Human-in-the-loop）。
    - **完全离线安全**：无真实云端外发，不读取真实凭据，不执行任何外部 Git 操作。
 

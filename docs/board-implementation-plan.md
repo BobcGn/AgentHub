@@ -4,7 +4,7 @@
 
 ## 当前 JSON Schema 切片与看板边界
 
-本轮仅实现[JSON Schema 合同](json-schema-contract.md)，不调整看板。新语义为 Requirement 对应看板 Issue，内部 Unit / Story / Bolt Plan 按需出现，一个 Requirement 对应一个最终 PR；旧交付 Issue 不自动改名或迁移。B1–B3 身份、审批、版本与同步保留，UI 分块和新模型适配后续独立规划。下文为历史看板计划，不因本次合同完成就宣称相关交互或 B4 已验收。
+本轮仅实现[JSON Schema 合同](json-schema-contract.md)，不调整看板。历史语义曾为 Requirement 对应看板 Issue，内部 Unit / Story / Bolt Plan 按需出现，一个 Requirement 对应一个最终 PR（注：该强制单 PR 规则已于 2026-10-30 由 SC-005 废除并升级为可选 0..N 个 PR，见[路线图](json-schema-roadmap.md)）；旧交付 Issue 不自动改名或迁移。B1–B3 身份、审批、版本与同步保留，UI 分块和新模型适配后续独立规划。下文为历史看板计划，不因本次合同完成就宣称相关交互或 B4 已验收。
 
 ## 书籍纠偏对当前计划的影响（2026-10-25）
 
